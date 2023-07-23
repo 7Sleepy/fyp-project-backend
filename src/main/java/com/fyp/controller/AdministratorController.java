@@ -1,6 +1,5 @@
 package com.fyp.controller;
 
-import com.fyp.dto.AdministratorDTO;
 import com.fyp.entity.Administrator;
 import com.fyp.service.AdministratorService;
 import lombok.RequiredArgsConstructor;
@@ -25,37 +24,36 @@ public class AdministratorController {
     // Read operation (getAll)
     @GetMapping("/administrators")
     @ResponseStatus(HttpStatus.OK)
-    public List<AdministratorDTO> readAdministratorList() {
+    public List<Administrator> readAdministratorList() {
         return administratorService.readAdministratorList();
     }
 
     // Read operation (byID)
     @GetMapping("/administrators/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public AdministratorDTO findById(@PathVariable("id") String id) {
+    public Administrator findById(@PathVariable("id") Long id) {
         return administratorService.findById(id);
     }
 
     // Save operation
     @PostMapping("/administrators")
     @ResponseStatus(HttpStatus.OK)
-    public Administrator createAdministrator(@Valid @RequestBody AdministratorDTO administratorDTO) {
-        return administratorService.createAdministrator(administratorDTO);
+    public Administrator createAdministrator(@Valid @RequestBody Administrator administrator) {
+        return administratorService.createAdministrator(administrator);
     }
 
     // Update operation
-    @PostMapping("/administrators/{id}")
+    @PutMapping("/administrators/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Administrator updateAdministrator(@Valid @RequestBody AdministratorDTO administratorDTO,
-                                 @PathVariable("id") String id) {
-        return administratorService.updateAdministrator(administratorDTO, id);
+    public Administrator updateAdministrator(@Valid @RequestBody Administrator administrator,
+                                             @PathVariable("id") Long id) {
+        return administratorService.updateAdministrator(administrator, id);
     }
 
     // Delete operation
-    @PostMapping("/administrators/delete/{id}")
+    @PutMapping("/administrators/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Administrator deleteAdministrator(@Valid @RequestBody AdministratorDTO administratorDTO,
-                                 @PathVariable("id") String id) {
-        return administratorService.deleteAdministrator(administratorDTO, id);
+    public Administrator deleteAdministrator(@PathVariable("id") Long id) {
+        return administratorService.deleteAdministrator(id);
     }
 }

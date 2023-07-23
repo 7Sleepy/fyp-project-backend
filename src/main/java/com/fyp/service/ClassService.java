@@ -8,17 +8,17 @@ import java.util.List;
 public interface ClassService {
 
     // Create operation
-    Class createClass(ClassDTO classDTO);
+    Class createClass(Class classes);
 
     // Read operation (getAll)
     List<ClassDTO> readClassList();
 
     // Read operation (byID)
-    ClassDTO findById(String id);
+    ClassDTO findById(Long id);
 
     // Update operation
-    Class updateClass(ClassDTO classDTO, String id);
+    Class updateClass(Class classes, Long id);
 
     // Delete operation (soft delete)
-    Class deleteClass(ClassDTO classDTO, String id);
+    Class deleteClass(Long id);
 }

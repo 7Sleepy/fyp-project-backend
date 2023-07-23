@@ -1,8 +1,13 @@
 package com.fyp.entity;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,33 +17,38 @@ import java.sql.Timestamp;
 public class Student {
 
     @Id
-    @Column(name = "stdnId")
-    private String stdnId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "stdn_id")
+    private Long stdnId;
 
-    @Column(name = "stdnIdNumber")
-    private String stdnIdNumber;
+    @Column(name = "stdn_id_number", nullable = false)
+    private String stdn_id_number;
 
-    @Column(name = "stdnName")
-    private String stdnName;
+    @Column(name = "stdn_firstname", nullable = false)
+    private String stdn_firstname;
 
-    @Column(name = "stdnEmail")
-    private String stdnEmail;
+    @Column(name = "stdn_lastname", nullable = false)
+    private String stdn_lastname;
 
-    @Column(name = "stdnDob")
-    private String stdnDob;
+    @Column(name = "stdn_email", nullable = false)
+    private String stdn_email;
 
-    @Column(name = "stdnGender")
-    private String stdnGender;
+    @Column(name = "stdn_dob", nullable = false)
+    private String stdn_dob;
 
-    @Column(name = "createdAt")
-    private Timestamp createdAt;
+    @Column(name = "stdn_gender", nullable = false)
+    private String stdn_gender;
 
-    @Column(name = "editedAt")
-    private Timestamp editedAt;
-
-    @Column(name = "editedBy")
-    private String editedBy;
-
-    @Column(name = "isDeleted")
+    @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
+
+    // Relationships
+    // For account
+    @OneToOne(mappedBy = "student")
+    @JsonIgnore
+    private Account account;
+
+    // For Enrollment
+    @OneToMany(mappedBy = "student")
+    private List<Enrollment> enrollmentList = new ArrayList<>();
 }

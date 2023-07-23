@@ -4,31 +4,37 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import java.sql.Timestamp;
+import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class LecturerDTO {
 
-    private String lectId;
+    private Long lectId;
 
-    private String lectIdNo;
+    @NotEmpty(message = "Please do not leave the lecturer ID Number field empty.")
+    private String lect_id_number;
 
-    private String lectName;
+    @NotEmpty(message = "Please do not leave the first name field empty.")
+    private String lect_firstname;
 
-    private String lectEmail;
+    @NotEmpty(message = "Please do not leave the last name field empty.")
+    private String lect_lastname;
 
-    private String lectDob;
+    @NotEmpty(message = "Please do not leave the email field empty.")
+    private String lect_email;
 
-    private String lectGender;
+    @NotEmpty(message = "Please do not leave the date of birth field empty.")
+    private String lect_dob;
 
-    private Timestamp createdAt;
-
-    private Timestamp editedAt;
-
-    private String editedBy;
+    @NotEmpty(message = "Please do not leave the gender field empty.")
+    private String lect_gender;
 
     private Boolean isDeleted;
+
+    // Additional fields
+    private List<ClassDTO> classDTOList = new ArrayList<>();
 }

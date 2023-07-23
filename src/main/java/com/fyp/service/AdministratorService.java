@@ -1,6 +1,5 @@
 package com.fyp.service;
 
-import com.fyp.dto.AdministratorDTO;
 import com.fyp.entity.Administrator;
 
 import java.util.List;
@@ -8,17 +7,17 @@ import java.util.List;
 public interface AdministratorService {
 
     // Create operation
-    Administrator createAdministrator(AdministratorDTO administratorDTO);
+    Administrator createAdministrator(Administrator administrator);
 
     // Read operation (getAll)
-    List<AdministratorDTO> readAdministratorList();
+    List<Administrator> readAdministratorList();
 
     // Read operation (byID)
-    AdministratorDTO findById(String id);
+    Administrator findById(Long id);
 
     // Update operation
-    Administrator updateAdministrator(AdministratorDTO administratorDTO, String id);
+    Administrator updateAdministrator(Administrator administrator, Long id);
 
     // Delete operation (soft delete)
-    Administrator deleteAdministrator(AdministratorDTO administratorDTO, String id);
+    Administrator deleteAdministrator(Long id);
 }

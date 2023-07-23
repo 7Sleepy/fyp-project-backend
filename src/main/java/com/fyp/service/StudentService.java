@@ -8,17 +8,17 @@ import java.util.List;
 public interface StudentService {
 
     // Create operation
-    Student createStudent(StudentDTO studentDTO);
+    Student createStudent(Student student);
 
     // Read operation (getAll)
     List<StudentDTO> readStudentList();
 
     // Read operation (byID)
-    StudentDTO findById(String id);
+    StudentDTO findById(Long id);
 
     // Update operation
-    Student updateStudent(StudentDTO studentDTO, String id);
+    Student updateStudent(Student student, Long id);
 
     // Delete operation (soft delete)
-    Student deleteStudent(StudentDTO studentDTO, String id);
+    Student deleteStudent(Long id);
 }

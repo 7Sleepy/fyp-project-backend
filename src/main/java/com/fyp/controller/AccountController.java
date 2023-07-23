@@ -32,30 +32,29 @@ public class AccountController {
     // Read operation (byID)
     @GetMapping("/accounts/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public AccountDTO findById(@PathVariable("id") String id) {
+    public AccountDTO findById(@PathVariable("id") Long id) {
         return accountService.findById(id);
     }
 
     // Save operation
     @PostMapping("/accounts")
     @ResponseStatus(HttpStatus.OK)
-    public Account createAccount(@Valid @RequestBody AccountDTO accountDTO) {
-        return accountService.createAccount(accountDTO);
+    public Account createAccount(@Valid @RequestBody Account account) {
+        return accountService.createAccount(account);
     }
 
     // Update operation
-    @PostMapping("/accounts/{id}")
+    @PutMapping("/accounts/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Account updateAccount(@Valid @RequestBody AccountDTO accountDTO,
-                                       @PathVariable("id") String id) {
-        return accountService.updateAccount(accountDTO, id);
+    public Account updateAccount(@Valid @RequestBody Account account,
+                                 @PathVariable("id") Long id) {
+        return accountService.updateAccount(account, id);
     }
 
     // Delete operation
-    @PostMapping("/accounts/delete/{id}")
+    @PutMapping("/accounts/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Account deleteAccount(@Valid @RequestBody AccountDTO accountDTO,
-                                 @PathVariable("id") String id) {
-        return accountService.deleteAccount(accountDTO, id);
+    public Account deleteAccount(@PathVariable("id") Long id) {
+        return accountService.deleteAccount(id);
     }
 }

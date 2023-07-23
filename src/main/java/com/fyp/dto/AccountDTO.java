@@ -1,31 +1,32 @@
 package com.fyp.dto;
 
+import com.fyp.entity.Administrator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotEmpty;
-import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountDTO {
 
-    private String accId;
+    private Long accId;
 
-    @NotEmpty(message = "Please do not leave the username field empty.")
     private String accUsername;
 
     private String accPassword;
 
-    private String accUserType;
-
-    private Timestamp createdAt;
-
-    private Timestamp editedAt;
-
-    private String editedBy;
+    private String acc_usertype;
 
     private Boolean isDeleted;
+
+    // Relationships
+    // For administrator
+    private Administrator administrator;
+
+    // For lecturer
+    private LecturerDTO lecturer;
+
+    // For student
+    private StudentDTO student;
 }

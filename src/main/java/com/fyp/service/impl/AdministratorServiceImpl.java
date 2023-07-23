@@ -1,65 +1,57 @@
 package com.fyp.service.impl;
 
-import com.fyp.dto.AdministratorDTO;
 import com.fyp.entity.Administrator;
-import com.fyp.mapper.AdministratorMapper;
 import com.fyp.repository.AdministratorRepository;
 import com.fyp.service.AdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Column;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
+
 @Service
 public class AdministratorServiceImpl implements AdministratorService {
 
     @Autowired
     AdministratorRepository administratorRepository;
-    @Autowired
-    AdministratorMapper administratorMapper;
 
     // Read operation (getAll)
     @Override
-    public List<AdministratorDTO> readAdministratorList() {
-        return administratorMapper.entityToDTOList(administratorRepository.findAllByOrderByAdmId());
+    public List<Administrator> readAdministratorList() {
+        return administratorRepository.findAllByIsDeletedFalseOrderByAdmId();
     }
 
     // Read operation (by ID)
     @Override
-    public AdministratorDTO findById(String id) {
-        return administratorMapper.entityToDTO(administratorRepository.findByAdmId(id));
+    public Administrator findById(Long id) {
+        return administratorRepository.findByAdmIdAndIsDeletedFalse(id);
     }
 
     // Create operation
     @Override
-    public Administrator createAdministrator(AdministratorDTO administratorDTO)
-    {
-        Administrator administrator = administratorMapper.dtoToEntity(administratorDTO);
-        administrator.setCreatedAt(Timestamp.from(Instant.now()));
+    public Administrator createAdministrator(Administrator administrator) {
+        administrator.setIsDeleted(false);
         return administratorRepository.save(administrator);
     }
 
     // Update operation
     @Override
-    public Administrator updateAdministrator(AdministratorDTO administratorDTO, String id)
-    {
-        Administrator administrator = administratorRepository.findByAdmId(id);
-        administrator.setAdmName(administratorDTO.getAdmName());
-        administrator.setAdmEmail(administratorDTO.getAdmEmail());
-        administrator.setAdmDob(administratorDTO.getAdmDob());
-        administrator.setEditedAt(Timestamp.from(Instant.now()));
-        return administratorRepository.save(administrator);
+    public Administrator updateAdministrator(Administrator administrator, Long id) {
+        Administrator administratorToUpdate = administratorRepository.findByAdmIdAndIsDeletedFalse(id);
+
+        administratorToUpdate.setAdm_id_number("ADM" + administrator.getAdm_id_number());
+        administratorToUpdate.setAdm_firstname(administrator.getAdm_firstname());
+        administratorToUpdate.setAdm_lastname(administrator.getAdm_lastname());
+        administratorToUpdate.setAdm_email(administrator.getAdm_email());
+        administratorToUpdate.setAdm_dob(administrator.getAdm_dob());
+        administratorToUpdate.setIsDeleted(false);
+        return administratorRepository.save(administratorToUpdate);
     }
 
     // Delete operation
     @Override
-    public Administrator deleteAdministrator(AdministratorDTO administratorDTO, String id)
-    {
-        Administrator administrator = administratorRepository.findByAdmId(id);
+    public Administrator deleteAdministrator(Long id) {
+        Administrator administrator = administratorRepository.findByAdmIdAndIsDeletedFalse(id);
         administrator.setIsDeleted(true);
-        administrator.setEditedAt(Timestamp.from(Instant.now()));
         return administratorRepository.save(administrator);
     }
 }

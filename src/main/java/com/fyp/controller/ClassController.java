@@ -32,30 +32,29 @@ public class ClassController {
     // Read operation (byID)
     @GetMapping("/classes/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ClassDTO findById(@PathVariable("id") String id) {
+    public ClassDTO findById(@PathVariable("id") Long id) {
         return classService.findById(id);
     }
 
     // Save operation
     @PostMapping("/classes")
     @ResponseStatus(HttpStatus.OK)
-    public Class createClass(@Valid @RequestBody ClassDTO classDTO) {
-        return classService.createClass(classDTO);
+    public Class createClass(@Valid @RequestBody Class classes) {
+        return classService.createClass(classes);
     }
 
     // Update operation
-    @PostMapping("/classes/{id}")
+    @PutMapping("/classes/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Class updateClass(@Valid @RequestBody ClassDTO classDTO,
-                                 @PathVariable("id") String id) {
-        return classService.updateClass(classDTO, id);
+    public Class updateClass(@Valid @RequestBody Class classes,
+                             @PathVariable("id") Long id) {
+        return classService.updateClass(classes, id);
     }
 
     // Delete operation
-    @PostMapping("/classes/delete/{id}")
+    @PutMapping("/classes/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Class deleteClass(@Valid @RequestBody ClassDTO classDTO,
-                                 @PathVariable("id") String id) {
-        return classService.deleteClass(classDTO, id);
+    public Class deleteClass(@PathVariable("id") Long id) {
+        return classService.deleteClass(id);
     }
 }

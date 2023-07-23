@@ -2,59 +2,108 @@ package com.fyp.service.impl;
 
 import com.fyp.dto.ClassDTO;
 import com.fyp.entity.Class;
+import com.fyp.entity.Enrollment;
+import com.fyp.entity.Lecturer;
 import com.fyp.mapper.ClassMapper;
+import com.fyp.mapper.LecturerMapper;
 import com.fyp.repository.ClassRepository;
+import com.fyp.repository.EnrollmentRepository;
+import com.fyp.repository.LecturerRepository;
 import com.fyp.service.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class ClassServiceImpl implements ClassService {
 
     @Autowired
     ClassRepository classRepository;
+
+    @Autowired
+    LecturerRepository lecturerRepository;
+
+    @Autowired
+    EnrollmentRepository enrollmentRepository;
+
     @Autowired
     ClassMapper classMapper;
+
+    @Autowired
+    LecturerMapper lecturerMapper;
 
     // Read operation (getAll)
     @Override
     public List<ClassDTO> readClassList() {
-        return classMapper.entityToDTOList(classRepository.findAllByOrderByClassId());
+
+        List<ClassDTO> classDTOList = classMapper.entityToDTOList(classRepository.findAllByIsDeletedFalseOrderByClassId());
+
+        for (ClassDTO classDTO : classDTOList) {
+            Class classes = classRepository.findById(classDTO.getClassId()).orElse(null);
+            if (classes != null) {
+                List<Long> studentIds = new ArrayList<>();
+                for (Enrollment enrollment : classes.getEnrollmentList()) {
+                    studentIds.add(enrollment.getStudent().getStdnId());
+                }
+                classDTO.setEnrolledStdnId(studentIds);
+            }
+        }
+
+        return classDTOList;
     }
 
     // Read operation (by ID)
     @Override
-    public ClassDTO findById(String id) {
-        return classMapper.entityToDTO(classRepository.findByClassId(id));
+    public ClassDTO findById(Long id) {
+        Class classes = classRepository.findByClassIdAndIsDeletedFalse(id);
+        ClassDTO classDTO = classMapper.entityToDTO(classes);
+
+        if (classes != null && classDTO != null) {
+            List<Long> studentIds = new ArrayList<>();
+            for (Enrollment enrollment : classes.getEnrollmentList()) {
+                studentIds.add(enrollment.getStudent().getStdnId());
+            }
+            classDTO.setEnrolledStdnId(studentIds);
+        }
+
+        return classDTO;
     }
 
     // Create operation
     @Override
-    public Class createClass(ClassDTO classDTO) {
-        Class classes = classMapper.dtoToEntity(classDTO);
-        classes.setCreatedAt(Timestamp.from(Instant.now()));
+    public Class createClass(Class classes) {
+        Lecturer lecturer = lecturerRepository.findByLectIdAndIsDeletedFalse(classes.getLecturer().getLectId());
+
+        classes.setClass_name(classes.getClass_name());
+        classes.setClass_status(classes.getClass_status());
+
+        classes.setLecturer(lecturer);
+
+        classes.setIsDeleted(false);
         return classRepository.save(classes);
     }
 
     // Update operation
     @Override
-    public Class updateClass(ClassDTO classDTO, String id) {
-        Class classes =  classRepository.findByClassId(id);
-        classes.setClassName(classDTO.getClassName());
-        classes.setClassStatus(classDTO.getClassStatus());
-        classes.setEditedAt(Timestamp.from(Instant.now()));
-        return classRepository.save(classes);
+    public Class updateClass(Class classes, Long id) {
+        Class existingClass = classRepository.findByClassIdAndIsDeletedFalse(id);
+
+        existingClass.setClass_name(classes.getClass_name());
+        existingClass.setClass_start_time(classes.getClass_start_time());
+        existingClass.setClass_end_time(classes.getClass_end_time());
+        existingClass.setClass_status(classes.getClass_status());
+        existingClass.setIsDeleted(false);
+
+        return classRepository.save(existingClass);
     }
 
     // Delete operation
     @Override
-    public Class deleteClass(ClassDTO classDTO, String id) {
-        Class classes =  classRepository.findByClassId(id);
-        classes.setIsDeleted(true);
-        classes.setEditedAt(Timestamp.from(Instant.now()));
-        return classRepository.save(classes);
+    public Class deleteClass(Long id) {
+        Class classToDelete = classRepository.findByClassIdAndIsDeletedFalse(id);
+        classToDelete.setIsDeleted(true);
+        return classRepository.save(classToDelete);
     }
 }

@@ -5,10 +5,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-    Account findByAccId(String id);
-    List<Account> findAllByOrderByAccId();
+    Account findByAccIdAndIsDeletedFalse(Long id);
+
+    Account findByAccUsernameAndIsDeletedFalse(String username);
+
+    Optional<Account> findByAccUsernameAndAccPassword(String username, String password);
+
+    List<Account> findAllByIsDeletedFalseOrderByAccId();
+
 }

@@ -1,10 +1,7 @@
 package com.fyp.controller;
 
-import com.fyp.dto.AccountDTO;
 import com.fyp.dto.LecturerDTO;
-import com.fyp.entity.Account;
 import com.fyp.entity.Lecturer;
-import com.fyp.service.AccountService;
 import com.fyp.service.LecturerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,30 +32,29 @@ public class LecturerController {
     // Read operation (byID)
     @GetMapping("/lecturers/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public LecturerDTO findById(@PathVariable("id") String id) {
+    public LecturerDTO findById(@PathVariable("id") Long id) {
         return lecturerService.findById(id);
     }
 
     // Save operation
     @PostMapping("/lecturers")
     @ResponseStatus(HttpStatus.OK)
-    public Lecturer createLecturer(@Valid @RequestBody LecturerDTO lecturerDTO) {
-        return lecturerService.createLecturer(lecturerDTO);
+    public Lecturer createLecturer(@Valid @RequestBody Lecturer lecturer) {
+        return lecturerService.createLecturer(lecturer);
     }
 
     // Update operation
-    @PostMapping("/lecturers/{id}")
+    @PutMapping("/lecturers/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Lecturer updateLecturer(@Valid @RequestBody LecturerDTO lecturerDTO,
-                                 @PathVariable("id") String id) {
-        return lecturerService.updateLecturer(lecturerDTO, id);
+    public Lecturer updateLecturer(@Valid @RequestBody Lecturer lecturer,
+                                   @PathVariable("id") Long id) {
+        return lecturerService.updateLecturer(lecturer, id);
     }
 
     // Delete operation
-    @PostMapping("/lecturers/delete/{id}")
+    @PutMapping("/lecturers/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Lecturer deleteLecturer(@Valid @RequestBody LecturerDTO lecturerDTO,
-                                   @PathVariable("id") String id) {
-        return lecturerService.deleteLecturer(lecturerDTO, id);
+    public Lecturer deleteLecturer(@PathVariable("id") Long id) {
+        return lecturerService.deleteLecturer(id);
     }
 }

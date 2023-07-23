@@ -8,17 +8,17 @@ import java.util.List;
 public interface AccountService {
 
     // Create operation
-    Account createAccount(AccountDTO accountDTO);
+    Account createAccount(Account account);
 
     // Read operation (getAll)
     List<AccountDTO> readAccountList();
 
     // Read operation (byID)
-    AccountDTO findById(String id);
+    AccountDTO findById(Long id);
 
     // Update operation
-    Account updateAccount(AccountDTO accountDTO, String id);
+    Account updateAccount(Account account, Long id);
 
     // Delete operation (soft delete)
-    Account deleteAccount(AccountDTO accountDTO, String id);
+    Account deleteAccount(Long id);
 }

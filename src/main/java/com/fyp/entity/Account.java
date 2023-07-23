@@ -1,7 +1,10 @@
 package com.fyp.entity;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,27 +14,35 @@ import java.sql.Timestamp;
 public class Account {
 
     @Id
-    @Column(name = "accId")
-    private String accId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "acc_Id")
+    private Long accId;
 
-    @Column(name = "accUsername")
+    @Column(name = "acc_username", nullable = false)
     private String accUsername;
 
-    @Column(name = "accPassword")
+    @Column(name = "acc_password", nullable = false)
     private String accPassword;
 
-    @Column(name = "accUserType")
-    private String accUserType;
+    @Column(name = "acc_usertype", nullable = false)
+    private String acc_usertype;
 
-    @Column(name = "createdAt")
-    private Timestamp createdAt;
-
-    @Column(name = "editedAt")
-    private Timestamp editedAt;
-
-    @Column(name = "editedBy")
-    private String editedBy;
-
-    @Column(name = "isDeleted")
+    @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
+
+    // Relationships
+    // For administrator
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "adm_id")
+    private Administrator administrator;
+
+    // For lecturer
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "lect_id")
+    private Lecturer lecturer;
+
+    // For student
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "stdn_id")
+    private Student student;
 }

@@ -1,8 +1,11 @@
 package com.fyp.entity;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,33 +15,34 @@ import java.sql.Timestamp;
 public class Administrator {
 
     @Id
-    @Column(name = "admId")
-    private String admId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "adm_id")
+    private Long admId;
 
-    @Column(name = "admIdNo")
-    private String admIdNo;
+    @Column(name = "adm_id_number", nullable = false)
+    private String adm_id_number;
 
-    @Column(name = "admName")
-    private String admName;
+    @Column(name = "adm_firstname", nullable = false)
+    private String adm_firstname;
 
-    @Column(name = "admEmail")
-    private String admEmail;
+    @Column(name = "adm_lastname", nullable = false)
+    private String adm_lastname;
 
-    @Column(name = "admDob")
-    private String admDob;
+    @Column(name = "adm_email", nullable = false)
+    private String adm_email;
 
-    @Column(name = "admGender")
-    private String admGender;
+    @Column(name = "adm_dob", nullable = false)
+    private String adm_dob;
 
-    @Column(name = "createdAt")
-    private Timestamp createdAt;
+    @Column(name = "adm_gender", nullable = false)
+    private String adm_gender;
 
-    @Column(name = "editedAt")
-    private Timestamp editedAt;
-
-    @Column(name = "editedBy")
-    private String editedBy;
-
-    @Column(name = "isDeleted")
+    @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
+
+    // Additional fields
+    // For account
+    @OneToOne(mappedBy = "administrator")
+    @JsonIgnore
+    private Account account;
 }
