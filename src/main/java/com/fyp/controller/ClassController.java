@@ -22,6 +22,13 @@ public class ClassController {
     @Autowired
     ClassService classService;
 
+    // Wildcard search
+    @GetMapping("/classes/search")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ClassDTO> searchTerm(@RequestParam String searchTerm) {
+        return classService.searchWildcard(searchTerm);
+    }
+
     // Read operation (getAll)
     @GetMapping("/classes")
     @ResponseStatus(HttpStatus.OK)

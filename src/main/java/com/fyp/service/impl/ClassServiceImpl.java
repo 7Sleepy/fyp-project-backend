@@ -34,6 +34,25 @@ public class ClassServiceImpl implements ClassService {
     @Autowired
     LecturerMapper lecturerMapper;
 
+    @Override
+    public List<ClassDTO> searchWildcard(String searchTerm) {
+        String wrappedSearchTerm = "Active".equals(searchTerm) ? searchTerm : "%" + searchTerm + "%";
+        List<ClassDTO> classDTOList = classMapper.entityToDTOList(classRepository.searchFields(wrappedSearchTerm));
+
+        for (ClassDTO classDTO : classDTOList) {
+            Class classes = classRepository.findById(classDTO.getClassId()).orElse(null);
+            if (classes != null) {
+                List<Long> studentIds = new ArrayList<>();
+                for (Enrollment enrollment : classes.getEnrollmentList()) {
+                    studentIds.add(enrollment.getStudent().getStdnId());
+                }
+                classDTO.setEnrolledStdnId(studentIds);
+            }
+        }
+
+        return classDTOList;
+    }
+
     // Read operation (getAll)
     @Override
     public List<ClassDTO> readClassList() {
@@ -91,6 +110,7 @@ public class ClassServiceImpl implements ClassService {
         Class existingClass = classRepository.findByClassIdAndIsDeletedFalse(id);
 
         existingClass.setClass_name(classes.getClass_name());
+        existingClass.setClass_date(classes.getClass_date());
         existingClass.setClass_start_time(classes.getClass_start_time());
         existingClass.setClass_end_time(classes.getClass_end_time());
         existingClass.setClass_status(classes.getClass_status());

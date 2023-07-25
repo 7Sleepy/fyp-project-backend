@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface ClassService {
 
+    // Wildcard Search
+    List<ClassDTO> searchWildcard(String searchTerm);
+
     // Create operation
     Class createClass(Class classes);
 
@@ -21,4 +24,6 @@ public interface ClassService {
 
     // Delete operation (soft delete)
     Class deleteClass(Long id);
+
+
 }

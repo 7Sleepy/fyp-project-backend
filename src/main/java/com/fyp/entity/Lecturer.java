@@ -14,9 +14,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "tbl_lecturer")
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "lectId")
 public class Lecturer {
 
     @Id

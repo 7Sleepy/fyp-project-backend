@@ -17,6 +17,9 @@ public class ClassDTO {
     @NotEmpty(message = "Please do not leave the class name field empty.")
     private String class_name;
 
+    @NotEmpty(message = "Please do not leave the class date field empty.")
+    private String class_date;
+
     @NotEmpty(message = "Please do not leave the class start time field empty.")
     private String class_start_time;
 

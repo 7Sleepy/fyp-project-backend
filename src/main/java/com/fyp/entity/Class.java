@@ -13,9 +13,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "tbl_class")
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "classId")
 public class Class {
 
     @Id
@@ -25,6 +22,9 @@ public class Class {
 
     @Column(name = "class_name", nullable = false)
     private String class_name;
+
+    @Column(name = "class_date")
+    private String class_date;
 
     @Column(name = "class_start_time", nullable = false)
     private String class_start_time;
