@@ -35,7 +35,7 @@ public class LoginServiceImpl implements LoginService {
             boolean passwordIsMatch = enteredPassword.equals(actualPassword);
 
             if (passwordIsMatch) {
-                Optional<Account> confirmation = accountRepository.findByAccUsernameAndAccPassword(username, actualPassword);
+                Optional<Account> confirmation = accountRepository.findByAccUsernameAndIsDeletedFalseCustom(username);
                 if (confirmation.isPresent()) {
                     AccountDTO userAccount = accountMapper.entityToDTO(accountRepository.findByAccUsernameAndIsDeletedFalse(username));
                     return new LoginResponse(userAccount, "Login Success", true);

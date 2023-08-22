@@ -10,8 +10,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RestController
 @Validated
+@RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000")
 public class LoginController {
@@ -26,5 +26,4 @@ public class LoginController {
 
         return ResponseEntity.ok(loginResponse);
     }
-
 }

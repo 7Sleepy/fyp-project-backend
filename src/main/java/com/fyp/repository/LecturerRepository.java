@@ -12,5 +12,6 @@ public interface LecturerRepository extends JpaRepository<Lecturer, Long> {
     Lecturer findByLectIdAndIsDeletedFalse(Long id);
 
     List<Lecturer> findAllByIsDeletedFalseOrderByLectId();
+
 }
 

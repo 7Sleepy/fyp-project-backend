@@ -56,14 +56,14 @@ public class AccountServiceImpl implements AccountService {
 
         if (usertype.equals("lecturer")) {
             account.getLecturer().setIsDeleted(false);
-            account.getLecturer().setLect_id_number("LECT" + account.getLecturer().getLect_id_number());
+            account.getLecturer().setLect_id_number(account.getLecturer().getLect_id_number());
             account.getLecturer().setAccount(account);
             // Set Admin and Student to null since usertype = lecturer
             account.setAdministrator(null);
             account.setStudent(null);
         } else if (usertype.equals("student")) {
             account.getStudent().setIsDeleted(false);
-            account.getStudent().setStdn_id_number("STU" + account.getStudent().getStdn_id_number());
+            account.getStudent().setStdn_id_number(account.getStudent().getStdn_id_number());
             account.getStudent().setAccount(account);
             // Set Admin and Lecturer to null since usertype = student
             account.setAdministrator(null);
@@ -71,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
         } else if (usertype.equals("administrator")) {
             // administrator
             account.getAdministrator().setIsDeleted(false);
-            account.getAdministrator().setAdm_id_number("ADM" + account.getAdministrator().getAdm_id_number());
+            account.getAdministrator().setAdm_id_number(account.getAdministrator().getAdm_id_number());
             account.getAdministrator().setAccount(account);
             // Set Lecturer and Student to null since usertype = administrator
             account.setLecturer(null);
